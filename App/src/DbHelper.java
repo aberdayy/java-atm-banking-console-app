@@ -10,8 +10,9 @@ public class DbHelper {
     public Connection getConnection() throws SQLException{
         return DriverManager.getConnection(dbUrl,usr,psw);
     }
-    public void showErrorMess(SQLException e){
-        System.out.println("Error => " + e.getMessage());
-        System.out.println("Error code => " + e.getErrorCode());
+    public String showErrorMess(SQLException e){
+        String error = "Error => " + e.getMessage();
+        String errorCode = "Error code => " + e.getErrorCode();
+        return error + errorCode;
     }
 }

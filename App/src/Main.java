@@ -16,7 +16,7 @@ public class Main {
         bringUser(accountNum,pass);
 
     }
-    public static void bringUser(String accountNum, String password) throws SQLException  {
+    public static ArrayList<User> bringUser(String accountNum, String password) throws SQLException  {
         Connection connection = null;
         DbHelper helper = new DbHelper();
         Statement statement;
@@ -25,33 +25,37 @@ public class Main {
         try {
             connection = helper.getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from user Where accountNumber =" + accountNum + " AND password ="+password);
-           if (resultSet.next()){
-            ArrayList<User> users = new ArrayList<>();
-            while(resultSet.next()){
-                users.add(
-                    new User(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("surname"),
-                            resultSet.getString("password"),
-                            resultSet.getInt("accountNumber")
-                    )
-                );
-            }
-            for (User myUser : users){
-                System.out.println("********************************************************************");
-                String client = "Hosgeldiniz sayin " + myUser.name + " " +  myUser.surname ;
-                System.out.println(client);
-            }
-           }else {
-               System.out.println("Please try again! \nAccount number or password is wrong!");
-           }
+
+                resultSet = statement.executeQuery("select * from user Where accountNumber =" + accountNum + " AND password ="+password);
+
+                    ArrayList<User> users = new ArrayList<>();
+                    while(resultSet.next()){
+                        users.add(
+                            new User(
+                                    resultSet.getInt("id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("surname"),
+                                    resultSet.getString("password"),
+                                    resultSet.getInt("accountNumber")
+                            )
+                        );
+                    }
+                    for (User myUser : users){
+                        System.out.println("****************************GIRIS BASARILI****************************");
+                        String client = "Hosgeldiniz sayin " + myUser.name + " " +  myUser.surname ;
+                        System.out.println(client);
+                        System.out.println("********************************************************************");
+
+                    }
+
+
         } catch (SQLException e) {
-            helper.showErrorMess(e);
+            System.out.println(helper.showErrorMess(e));
         }finally {
             connection.close();
         }
+
+
 
     }
 }
