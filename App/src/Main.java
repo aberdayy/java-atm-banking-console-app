@@ -11,7 +11,7 @@ public class Main {
         System.out.println("HOSGELDINIZ");
         System.out.println("Lutfen hesap numaranizi giriniz: ");
         String accountNum = input.next();
-        System.out.println("Lutfen " + accountNum + " numarali hesap icin sifrenizi giriniz:1 ");
+        System.out.println("Lutfen " + accountNum + " numarali hesap icin sifrenizi giriniz: ");
         String pass = input.next();
         bringUser(accountNum,pass);
 
@@ -26,7 +26,7 @@ public class Main {
             connection = helper.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from user Where accountNumber =" + accountNum + " AND password ="+password);
-
+           if (resultSet.next()){
             ArrayList<User> users = new ArrayList<>();
             while(resultSet.next()){
                 users.add(
@@ -44,7 +44,9 @@ public class Main {
                 String client = "Hosgeldiniz sayin " + myUser.name + " " +  myUser.surname ;
                 System.out.println(client);
             }
-
+           }else {
+               System.out.println("Please try again! \nAccount number or password is wrong!");
+           }
         } catch (SQLException e) {
             helper.showErrorMess(e);
         }finally {
