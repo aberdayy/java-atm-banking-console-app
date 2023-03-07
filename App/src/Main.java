@@ -20,8 +20,8 @@ public class Main {
                 ArrayList<User> activeClient =  bringUser(accountNum, pass);
                 String clientName="";
                 String clientSurname="";
-                double clientBallance;
-                int clientAccNum;
+                double clientBallance = 0;
+                int clientAccNum = 0;
 
                 for (User myUser : activeClient){
                     System.out.println("****************************SUCCESFULL LOGIN****************************");
@@ -32,7 +32,7 @@ public class Main {
                     System.out.println("********************************************************************");
                 }
 
-                System.out.println(clientName);
+
                 System.out.println("Welcome to our bank dear " + clientName + " please choose what process you would like to proceed\n" +
                         "1 => Deposit\n" +
                         "2 => Withdraw \n" +
@@ -43,7 +43,8 @@ public class Main {
                 userChoice = input.nextInt();
                 switch (userChoice){
                     case 1:
-                        //Do deposit
+
+                        addBalance(clientAccNum,500,clientBallance);
                     case 2:
                         //Do withdraw
                     case 3:
@@ -59,6 +60,25 @@ public class Main {
                 System.out.println("Thank you for using our ATM");
 
 
+
+    }
+    public static void addBalance(int accountNum, double valueToAdd,double clientBal) throws SQLException{
+        Connection connection= null;
+        DbHelper helper = new DbHelper();
+        PreparedStatement statement = null;
+        ResultSet resultSet;
+        double totalBal = valueToAdd + clientBal;
+        try {
+            connection = helper.getConnection();
+            String sql = "update user set balance = ? WHERE accountNumber= ? ";
+            statement = connection.prepareStatement(sql);
+            statement.setDouble(1,totalBal);
+            statement.setInt(2,accountNum);
+            int result = statement.executeUpdate();
+            System.out.println("Guncellendi");
+        }catch (SQLException e){
+            helper.showErrorMess(e);
+        }
 
     }
     public static ArrayList<User> bringUser(String accountNum, String password) throws SQLException  {
