@@ -13,10 +13,57 @@ public class Main {
         String accountNum = input.next();
         System.out.println("Lutfen " + accountNum + " numarali hesap icin sifrenizi giriniz: ");
         String pass = input.next();
-        bringUser(accountNum,pass);
+
+            int userChoice;
+            do {
+
+                ArrayList<User> activeClient =  bringUser(accountNum, pass);
+                String clientName="";
+                String clientSurname="";
+                double clientBallance;
+                int clientAccNum;
+
+                for (User myUser : activeClient){
+                    System.out.println("****************************SUCCESFULL LOGIN****************************");
+                    clientName = myUser.name;
+                    clientSurname = myUser.surname;
+                    clientBallance = myUser.balance;
+                    clientAccNum = myUser.accountNumber;
+                    System.out.println("********************************************************************");
+                }
+
+                System.out.println(clientName);
+                System.out.println("Welcome to our bank dear " + clientName + " please choose what process you would like to proceed\n" +
+                        "1 => Deposit\n" +
+                        "2 => Withdraw \n" +
+                        "3 => Learn Balance \n" +
+                        "4 => Learn Debt \n" +
+                        "5 => Pay debt\n" +
+                        "6 => Exit \n");
+                userChoice = input.nextInt();
+                switch (userChoice){
+                    case 1:
+                        //Do deposit
+                    case 2:
+                        //Do withdraw
+                    case 3:
+                        //Do Learn Balance
+                    case 4:
+                        //Do Learn Debt
+                    case 5:
+                        //Do Pay Debt
+                }
+
+
+            }while (userChoice != 6);
+                System.out.println("Thank you for using our ATM");
+
+
 
     }
     public static ArrayList<User> bringUser(String accountNum, String password) throws SQLException  {
+        ArrayList<User> users = new ArrayList<>();
+
         Connection connection = null;
         DbHelper helper = new DbHelper();
         Statement statement;
@@ -27,8 +74,6 @@ public class Main {
             statement = connection.createStatement();
 
                 resultSet = statement.executeQuery("select * from user Where accountNumber =" + accountNum + " AND password ="+password);
-
-                    ArrayList<User> users = new ArrayList<>();
                     while(resultSet.next()){
                         users.add(
                             new User(
@@ -36,25 +81,18 @@ public class Main {
                                     resultSet.getString("name"),
                                     resultSet.getString("surname"),
                                     resultSet.getString("password"),
-                                    resultSet.getInt("accountNumber")
+                                    resultSet.getInt("accountNumber"),
+                                    resultSet.getDouble("balance")
                             )
                         );
                     }
-                    for (User myUser : users){
-                        System.out.println("****************************GIRIS BASARILI****************************");
-                        String client = "Hosgeldiniz sayin " + myUser.name + " " +  myUser.surname ;
-                        System.out.println(client);
-                        System.out.println("********************************************************************");
-
-                    }
-
 
         } catch (SQLException e) {
             System.out.println(helper.showErrorMess(e));
         }finally {
             connection.close();
         }
-
+        return users;
 
 
     }
