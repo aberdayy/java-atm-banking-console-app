@@ -22,12 +22,14 @@ public class Main {
         int accountNumber = manager.accountNumBringer(accountNum,pass);
         double balance = manager.balanceBringer(accountNum,pass);
         double credit = manager.creditBringer(accountNum,pass);
-        //withdraw options
+
+        /* //withdraw options
         int opt1 = 10;
         int opt2 = 20;
         int opt3 = 50;
         int opt4 = 100;
-        int opt5 = 200;
+        int opt5 = 200;*/
+
         if (clientName.isEmpty()){
             System.out.println("Wrong account information");
 
@@ -101,10 +103,14 @@ public class Main {
                             System.out.println(manager.balanceBringer(accountNum,pass));
                             break;
                         case 4:
+                            System.out.println(manager.creditBringer(accountNum,pass));
                             //Do Learn Debt
                             break;
                         case 5:
-                            //Do Pay Debt
+                            System.out.println("Your total debt is: "+manager.creditBringer(accountNum,pass) + " TRY");
+                            System.out.println("How much you would like to pay?");
+                            double valueToDeduct = input.nextInt();
+                            System.out.println(OperationValidator.validator(CashOperationsManager.payDebt(accountNumber,valueToDeduct, pass)));
                             break;
                     }
 
