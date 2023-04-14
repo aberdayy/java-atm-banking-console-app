@@ -1,5 +1,4 @@
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -60,6 +59,7 @@ public class Main {
                             "6 => Other : ");
                     int withdrawChoice = input.nextInt();
                     double withdrawValue;
+                    //WITHDRAW
                     switch (withdrawChoice){
                         case 1:
                             withdrawValue = 10;
@@ -99,13 +99,16 @@ public class Main {
                             break;
                             }
                             break;
+                        //LEARN BALANCE
                         case 3:
                             System.out.println(manager.balanceBringer(accountNum,pass));
                             break;
+                        //LEARN DEBT
                         case 4:
                             System.out.println(manager.creditBringer(accountNum,pass));
                             //Do Learn Debt
                             break;
+                        //PAY DEBT
                         case 5:
                             System.out.println("Your total debt is: "+manager.creditBringer(accountNum,pass) + " TRY");
                             System.out.println("How much you would like to pay?");

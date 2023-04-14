@@ -34,6 +34,8 @@ public class CashOperationsManager {
         int result = 0;
         double clientDebt = manager.creditBringer(accountNum,password);
         double totalDebt = clientDebt-valueToDeduct;
+        double balance = manager.balanceBringer(accountNum,password);
+
         if (totalDebt>=0){
             try {
                 connection = helper.getConnection();
@@ -44,11 +46,12 @@ public class CashOperationsManager {
                 statement.setInt(3,password);
                 result = statement.executeUpdate();
             }catch (SQLException e){
+
                 helper.showErrorMess(e);
             }
         } else if(totalDebt<0){
             try {
-                double addToBalance = valueToDeduct - totalDebt;
+                double addToBalance = valueToDeduct + balance;
                 connection = helper.getConnection();
                 String sql = "update user set credit = ?, balance =? WHERE accountNumber= ? AND password = ?";
                 statement = connection.prepareStatement(sql);
